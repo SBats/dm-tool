@@ -3,12 +3,20 @@ import * as path from "path";
 import * as url from "url";
 
 let mainWindow: Electron.BrowserWindow;
+let serverWindow: Electron.BrowserWindow;
 
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     height: 600,
     width: 800
+  });
+  serverWindow = new BrowserWindow({
+    show: false,
+    parent: mainWindow,
+    webPreferences: {
+      preload: require(path.join(__dirname, "../../api/dist/main.js"))
+    }
   });
 
   // and load the index.html of the app.
@@ -35,7 +43,9 @@ function createWindow() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on("ready", createWindow);
+app.on("ready", () => {
+  createWindow();
+});
 
 // Quit when all windows are closed.
 app.on("window-all-closed", () => {
@@ -52,6 +62,10 @@ app.on("activate", () => {
   if (mainWindow === null) {
     createWindow();
   }
+});
+
+app.on("before-quit", () => {
+  serverWindow.close();
 });
 
 // In this file you can include the rest of your app"s specific main process
