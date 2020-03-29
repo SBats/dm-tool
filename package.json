@@ -2,6 +2,20 @@
   "name": "dm-tool",
   "version": "0.0.1",
   "description": "A tool to help DMs manage their DnD campaigns",
+  "scripts": {
+    "init": "npm-run-all --parallel init:*",
+    "init:api": "cd src/api && npm i && cd ../..",
+    "init:app": "cd src/app && npm i && cd ../..",
+    "init:client": "cd src/client && npm i && cd ../..",
+    "start": "npm-run-all --parallel build:* --sequential start:client",
+    "build:api": "cd src/api && npm run build && cd ../..",
+    "build:app": "cd src/app && npm run build && cd ../..",
+    "start:client": "cd src/client && npm run start && cd ../..",
+    "dev": "npm-run-all --parallel watch:*",
+    "watch:api": "cd src/api && npm run build:watch && cd ../..",
+    "watch:app": "cd src/app && npm run build:watch && cd ../..",
+    "watch:client": "cd src/client && npm run watch && cd ../.."
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SBats/dm-tool.git"
@@ -11,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/SBats/dm-tool/issues"
   },
-  "homepage": "https://github.com/SBats/dm-tool#readme"
+  "homepage": "https://github.com/SBats/dm-tool#readme",
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
 }
